@@ -20,7 +20,7 @@ const HeaderContent = () => {
 
       <IconButton
         component={Link}
-        href="https://github.com/codedthemes/mantis-free-react-admin-template"
+        href="https://github.com/codedthemes/chat-copilot-ui"
         target="_blank"
         disableRipple
         color="secondary"
