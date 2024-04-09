@@ -21,9 +21,9 @@ const DrawerHeader = ({ open }) => {
         <Chip
           label={process.env.REACT_APP_VERSION}
           size="small"
-          sx={{ height: 16, '& .MuiChip-label': { fontSize: '0.625rem', py: 0.25 } }}
+          sx={{ height: 16, '& .MuiChip-label': { fontSize: '0.625rem', py: 0.2 } }}
           component="a"
-          href="https://github.com/codedthemes/chat-copilot-ui"
+          href="https://github.com/lw396/ChatCopilot"
           target="_blank"
           clickable
         />
