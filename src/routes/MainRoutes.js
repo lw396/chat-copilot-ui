@@ -4,9 +4,6 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 
-import { Navigate } from 'react-router-dom';
-import { isLoggedOn } from 'api/headers-helper';
-
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
@@ -20,7 +17,6 @@ const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
 // ==============================|| MAIN ROUTING ||============================== //
-
 const MainRoutes = {
   path: '/',
   element: <MainLayout />,
@@ -57,10 +53,6 @@ const MainRoutes = {
     {
       path: 'icons/ant',
       element: <AntIcons />
-    },
-    {
-      index: isLoggedOn(),
-      element: <Navigate to="/login" />
     }
   ]
 };

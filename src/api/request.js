@@ -1,5 +1,8 @@
 import axios from 'axios';
 import envconfig from 'envconfig/envconfig';
+import { getToken } from 'utils/auto';
+
+axios.defaults.headers.common['Authorization'] = getToken();
 
 async function _get(url, param) {
   const response = await axios.get(envconfig.baseURL + url, param);

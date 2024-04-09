@@ -16,7 +16,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 // api
 import { login } from 'api/account';
-import { setTokenHeader } from 'api/headers-helper';
+import { setToken } from 'utils/auto';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -52,9 +52,9 @@ const AuthLogin = () => {
         onSubmit={async (values, actions) => {
           try {
             let result = await login(values);
-            await setTokenHeader(result.token);
+            await setToken(result.token);
             actions.setSubmitting(false);
-            navigate('/');
+            navigate('/dashboard/default');
           } catch (err) {
             setOpen(true);
             actions.setErrors({ response: err.msg });
