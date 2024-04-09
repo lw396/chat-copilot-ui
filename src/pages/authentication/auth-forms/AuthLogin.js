@@ -1,11 +1,12 @@
 import React from 'react';
 
 // material-ui
-import { Button, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
+import { Button, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, Snackbar, Alert } from '@mui/material';
 
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 // project import
 import AnimateButton from 'components/@extended/AnimateButton';
@@ -21,6 +22,9 @@ import { setTokenHeader } from 'api/headers-helper';
 
 const AuthLogin = () => {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -29,14 +33,8 @@ const AuthLogin = () => {
     event.preventDefault();
   };
 
-  const HandleLoain = async (data) => {
-    try {
-      let result = await login(data);
-      await setTokenHeader(result.token);
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+  const handleCloseAlert = () => {
+    setOpen(false);
   };
 
   return (
@@ -52,18 +50,16 @@ const AuthLogin = () => {
           password: Yup.string().max(255).required('密码不能为空')
         })}
         onSubmit={async (values, actions) => {
-          actions.setStatus({ success: true });
-          actions.setSubmitting(false);
-          await HandleLoain(values);
-
-          //   actions.setStatus({ success: true });
-          //   actions.setSubmitting(false);
-          //   navigate('/dashboard/default');
-          // } else {
-          //   ErrorAlert(res.msg);
-          //   actions.setStatus({ success: false });
-          //   actions.setErrors({ submit: res.data.message });
-          //   actions.setSubmitting(false);
+          try {
+            let result = await login(values);
+            await setTokenHeader(result.token);
+            actions.setSubmitting(false);
+            navigate('/');
+          } catch (err) {
+            setOpen(true);
+            actions.setErrors({ response: err.msg });
+            actions.setSubmitting(false);
+          }
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -140,6 +136,16 @@ const AuthLogin = () => {
                   </Button>
                 </AnimateButton>
               </Grid>
+              <Snackbar
+                open={open && errors.response !== undefined}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}
+              >
+                <Alert severity="error" variant="filled" onClose={handleCloseAlert}>
+                  {errors.response}
+                </Alert>
+              </Snackbar>
             </Grid>
           </form>
         )}
