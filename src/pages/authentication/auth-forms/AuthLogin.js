@@ -16,7 +16,6 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 // api
 import { login } from 'api/account';
-import { setToken } from 'utils/auto';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 

@@ -1,9 +1,15 @@
-import request from './request';
+import axios from 'utils/axios';
 
 export async function login(data) {
   return handleResponse(function (data) {
-    return request.post('/auth/login', data);
+    return axios.post('/auth/login', data);
   }, data);
+}
+
+export async function user() {
+  return handleResponse(function () {
+    return axios.get('/v1/user');
+  });
 }
 
 var handleResponse = async function (func, data, params = {}) {

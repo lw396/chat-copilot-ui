@@ -20,9 +20,6 @@ import {
 import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 
-// api
-import { removeToken } from 'utils/auto';
-
 // assets
 import { LogoutOutlined } from '@ant-design/icons';
 
@@ -31,10 +28,7 @@ import { LogoutOutlined } from '@ant-design/icons';
 const Profile = () => {
   const theme = useTheme();
 
-  const handleLogout = async () => {
-    removeToken();
-  };
-
+  const handleLogout = async () => {};
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
   const handleToggle = () => {
