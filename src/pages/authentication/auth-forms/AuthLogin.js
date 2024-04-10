@@ -6,23 +6,23 @@ import { Button, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, O
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
 
 // project import
+import useAuth from 'hooks/useAuth';
+import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'components/@extended/AnimateButton';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
-// api
-import { login } from 'api/account';
-
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
+  const { Logout } = useAuth();
+  const scriptedRef = useScriptRef();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -50,14 +50,19 @@ const AuthLogin = () => {
         })}
         onSubmit={async (values, actions) => {
           try {
-            let result = await login(values);
-            await setToken(result.token);
-            actions.setSubmitting(false);
-            navigate('/dashboard/default');
+            await Logout(values);
+            if (scriptedRef.current) {
+              actions.setStatus({ success: true });
+              actions.setSubmitting(false);
+            }
           } catch (err) {
-            setOpen(true);
-            actions.setErrors({ response: err.msg });
-            actions.setSubmitting(false);
+            console.error(err);
+            if (scriptedRef.current) {
+              setOpen(true);
+              actions.setStatus({ success: true });
+              actions.setErrors({ response: err.msg });
+              actions.setSubmitting(false);
+            }
           }
         }}
       >

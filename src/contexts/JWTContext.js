@@ -90,7 +90,7 @@ export const JWTProvider = ({ children }) => {
     });
   };
 
-  const logout = () => {
+  const Logout = () => {
     setSession(null);
     dispatch({ type: LOGOUT });
   };
@@ -99,7 +99,7 @@ export const JWTProvider = ({ children }) => {
     return <Loader />;
   }
 
-  return <JWTContext.Provider value={{ ...state, Login, logout }}>{children}</JWTContext.Provider>;
+  return <JWTContext.Provider value={{ ...state, Login, Logout }}>{children}</JWTContext.Provider>;
 };
 
 JWTProvider.propTypes = {
