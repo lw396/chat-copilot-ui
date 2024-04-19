@@ -16,12 +16,14 @@ import {
 // third party
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { preload } from "swr";
 
 // project import
 import useAuth from "hooks/useAuth";
 import useScriptRef from "hooks/useScriptRef";
 import IconButton from "components/@extended/IconButton";
 import AnimateButton from "components/@extended/AnimateButton";
+import { fetcher } from "utils/axios";
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
@@ -65,13 +67,14 @@ const AuthLogin = () => {
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
+              preload("v1/user", fetcher);
             }
           } catch (err) {
-            console.error(err);
+            console.error(err.msg);
             if (scriptedRef.current) {
               setOpen(true);
               setStatus({ success: false });
-              setErrors({ submit: err.message });
+              setErrors({ submit: err.msg });
               setSubmitting(false);
             }
           }
@@ -148,20 +151,6 @@ const AuthLogin = () => {
                   <FormHelperText error>{errors.password}</FormHelperText>
                 )}
               </Grid>
-
-              <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  spacing={2}
-                ></Stack>
-              </Grid>
-              {errors.submit && (
-                <Grid item xs={12}>
-                  <FormHelperText error>{errors.submit}</FormHelperText>
-                </Grid>
-              )}
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button
@@ -179,7 +168,7 @@ const AuthLogin = () => {
               </Grid>
 
               <Snackbar
-                open={open && errors.response !== undefined}
+                open={open && errors !== undefined}
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
                 autoHideDuration={6000}
                 onClose={handleCloseAlert}
@@ -189,7 +178,7 @@ const AuthLogin = () => {
                   variant="filled"
                   onClose={handleCloseAlert}
                 >
-                  {errors.response}
+                  {errors.submit}
                 </Alert>
               </Snackbar>
             </Grid>

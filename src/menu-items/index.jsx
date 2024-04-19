@@ -1,12 +1,11 @@
 // project import
-import samplePage from './sample-page';
-import other from './other';
-import pages from './pages';
+import samplePage from "./sample-page";
+import pages from "./pages";
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [samplePage, pages, other]
+  items: [samplePage, pages],
 };
 
 export default menuItems;

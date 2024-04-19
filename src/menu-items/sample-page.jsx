@@ -1,45 +1,43 @@
 // This is example of menu item without group for horizontal layout. There will be no children.
 
 // third-party
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from "react-intl";
 
 // assets
-import { ChromeOutlined, PlusOutlined, MinusOutlined} from '@ant-design/icons';
+import { ChromeOutlined, MinusOutlined } from "@ant-design/icons";
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const samplePage = {
-  id: 'sample-page',
+  id: "sample-page",
   title: <FormattedMessage id="sample-page" />,
-  type: 'group',
+  type: "group",
   icon: ChromeOutlined,
   children: [
     {
-      id: 'list',
+      id: "maintenance",
       title: <FormattedMessage id="maintenance" />,
-      type: 'collapse',
-      icon: MinusOutlined,
+      type: "item",
       isDropdown: false,
-      children: [
-        {
-          id: 'tables',
-          title: <FormattedMessage id="tables" />,
-          type: 'item',
-          url: '/tables',
-          icon: PlusOutlined,
-          target: false
-        },
-        {
-          id: 'paginationTable',
-          title: <FormattedMessage id="paginationTable" />,
-          type: 'item',
-          url: '/paginationTable',
-          icon: PlusOutlined,
-          target: false
-        }
-      ]}
-  ]
-  
+      url: "/sample-page",
+      target: false,
+    },
+    {
+      id: "tables",
+      title: <FormattedMessage id="tables" />,
+      type: "item",
+      url: "/tables",
+      icon: MinusOutlined,
+      target: false,
+    },
+    {
+      id: "paginationTable",
+      title: <FormattedMessage id="paginationTable" />,
+      type: "item",
+      url: "/paginationTable",
+      target: false,
+    },
+  ],
 };
 
 export default samplePage;

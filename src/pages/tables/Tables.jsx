@@ -1,13 +1,4 @@
-import { Input } from '@mui/material';
-import ColumnGroupingTable from './GetTables';
-import Regist from './Regist';
-
-const HeaderColumns = [
-  {
-    columnId: 'test1'
-    // columnComponent: Input
-  }
-];
+import Regist from "./Regist";
 
 export default function Tables() {
   // console.log('test');

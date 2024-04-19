@@ -10,9 +10,9 @@ import useConfig from 'hooks/useConfig';
 // load locales files
 const loadLocaleData = (locale) => {
   switch (locale) {
-    case 'en':
+    case 'zh':
     default:
-      return import('utils/locales/en.json');
+      return import('utils/locales/zh.json');
   }
 };
 

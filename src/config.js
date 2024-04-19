@@ -55,7 +55,7 @@ const config = {
    * 'ro'
    * 'zh'
    */
-  i18n: 'en',
+  i18n: 'zh',
 
   /**
    * the props used for menu orientation (diffrent theme layout).

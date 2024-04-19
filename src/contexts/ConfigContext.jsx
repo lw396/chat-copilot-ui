@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import { createContext } from 'react';
+import PropTypes from "prop-types";
+import { createContext } from "react";
 
 // project import
-import config from 'config';
-import useLocalStorage from 'hooks/useLocalStorage';
+import config from "config";
+import useLocalStorage from "hooks/useLocalStorage";
 
 // initial state
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
   onChangeDirection: () => {},
   onChangeMiniDrawer: () => {},
   onChangeMenuOrientation: () => {},
-  onChangeFontFamily: () => {}
+  onChangeFontFamily: () => {},
 };
 
 // ==============================|| CONFIG CONTEXT & PROVIDER ||============================== //
@@ -23,61 +23,64 @@ const initialState = {
 const ConfigContext = createContext(initialState);
 
 function ConfigProvider({ children }) {
-  const [config, setConfig] = useLocalStorage('mantis-react-js-config', initialState);
+  const [config, setConfig] = useLocalStorage(
+    "mantis-react-js-config",
+    initialState
+  );
 
   const onChangeContainer = () => {
     setConfig({
       ...config,
-      container: !config.container
+      container: !config.container,
     });
   };
 
   const onChangeLocalization = (lang) => {
     setConfig({
       ...config,
-      i18n: lang
+      i18n: lang,
     });
   };
 
   const onChangeMode = (mode) => {
     setConfig({
       ...config,
-      mode
+      mode,
     });
   };
 
   const onChangePresetColor = (theme) => {
     setConfig({
       ...config,
-      presetColor: theme
+      presetColor: theme,
     });
   };
 
   const onChangeDirection = (direction) => {
     setConfig({
       ...config,
-      themeDirection: direction
+      themeDirection: direction,
     });
   };
 
   const onChangeMiniDrawer = (miniDrawer) => {
     setConfig({
       ...config,
-      miniDrawer
+      miniDrawer,
     });
   };
 
   const onChangeMenuOrientation = (layout) => {
     setConfig({
       ...config,
-      menuOrientation: layout
+      menuOrientation: layout,
     });
   };
 
   const onChangeFontFamily = (fontFamily) => {
     setConfig({
       ...config,
-      fontFamily
+      fontFamily,
     });
   };
 
@@ -92,7 +95,7 @@ function ConfigProvider({ children }) {
         onChangeDirection,
         onChangeMiniDrawer,
         onChangeMenuOrientation,
-        onChangeFontFamily
+        onChangeFontFamily,
       }}
     >
       {children}
@@ -101,7 +104,7 @@ function ConfigProvider({ children }) {
 }
 
 ConfigProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export { ConfigProvider, ConfigContext };

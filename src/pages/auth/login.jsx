@@ -2,15 +2,12 @@
 import { Grid, Stack, Typography } from "@mui/material";
 
 // project import
-import useAuth from "hooks/useAuth";
 import AuthWrapper from "sections/auth/AuthWrapper";
-import AuthLogin from "sections/auth/auth-forms/AuthLogin";
+import AuthLogin from "sections/auth/AuthLogin";
 
 // ================================|| LOGIN ||================================ //
 
 const Login = () => {
-  const { isLoggedIn } = useAuth();
-
   return (
     <AuthWrapper>
       <Grid container spacing={3}>
@@ -25,7 +22,7 @@ const Login = () => {
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <AuthLogin isDemo={isLoggedIn} />
+          <AuthLogin />
         </Grid>
       </Grid>
     </AuthWrapper>
