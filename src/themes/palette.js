@@ -1,18 +1,19 @@
 // material-ui
-import { createTheme } from '@mui/material/styles';
+import { alpha, createTheme } from '@mui/material/styles';
 
 // third-party
-import { presetPalettes } from '@ant-design/colors';
+import { presetDarkPalettes, presetPalettes } from '@ant-design/colors';
 
 // project import
 import ThemeOption from './theme';
+import { ThemeMode } from 'config';
 
-// ==============================|| DEFAULT THEME - PALETTE  ||============================== //
+// ==============================|| DEFAULT THEME - PALETTE ||============================== //
 
-const Palette = (mode) => {
-  const colors = presetPalettes;
+const Palette = (mode, presetColor) => {
+  const colors = mode === ThemeMode.DARK ? presetDarkPalettes : presetPalettes;
 
-  const greyPrimary = [
+  let greyPrimary = [
     '#ffffff',
     '#fafafa',
     '#f5f5f5',
@@ -25,12 +26,18 @@ const Palette = (mode) => {
     '#141414',
     '#000000'
   ];
-  const greyAscent = ['#fafafa', '#bfbfbf', '#434343', '#1f1f1f'];
-  const greyConstant = ['#fafafb', '#e6ebf1'];
+  let greyAscent = ['#fafafa', '#bfbfbf', '#434343', '#1f1f1f'];
+  let greyConstant = ['#fafafb', '#e6ebf1'];
 
+  if (mode === ThemeMode.DARK) {
+    greyPrimary = ['#000000', '#141414', '#1e1e1e', '#595959', '#8c8c8c', '#bfbfbf', '#d9d9d9', '#f0f0f0', '#f5f5f5', '#fafafa', '#ffffff'];
+    // greyPrimary.reverse();
+    greyAscent = ['#fafafa', '#bfbfbf', '#434343', '#1f1f1f'];
+    greyConstant = ['#121212', '#d3d8db'];
+  }
   colors.grey = [...greyPrimary, ...greyAscent, ...greyConstant];
 
-  const paletteColor = ThemeOption(colors);
+  const paletteColor = ThemeOption(colors, presetColor, mode);
 
   return createTheme({
     palette: {
@@ -41,16 +48,16 @@ const Palette = (mode) => {
       },
       ...paletteColor,
       text: {
-        primary: paletteColor.grey[700],
-        secondary: paletteColor.grey[500],
-        disabled: paletteColor.grey[400]
+        primary: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900], 0.87) : paletteColor.grey[700],
+        secondary: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900], 0.45) : paletteColor.grey[500],
+        disabled: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900], 0.1) : paletteColor.grey[400]
       },
       action: {
         disabled: paletteColor.grey[300]
       },
-      divider: paletteColor.grey[200],
+      divider: mode === ThemeMode.DARK ? alpha(paletteColor.grey[900], 0.05) : paletteColor.grey[200],
       background: {
-        paper: paletteColor.grey[0],
+        paper: mode === ThemeMode.DARK ? paletteColor.grey[100] : paletteColor.grey[0],
         default: paletteColor.grey.A50
       }
     }

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // project import
-import defaultPath from 'config';
+import { APP_DEFAULT_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
 
 // ==============================|| GUEST GUARD ||============================== //
@@ -15,7 +15,7 @@ const GuestGuard = ({ children }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate(location?.state?.from ? location?.state?.from : defaultPath, {
+      navigate(location?.state?.from ? location?.state?.from : APP_DEFAULT_PATH, {
         state: {
           from: ''
         },

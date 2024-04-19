@@ -1,4 +1,4 @@
-// ==============================|| DEFAULT THEME - TYPOGRAPHY  ||============================== //
+// ==============================|| DEFAULT THEME - TYPOGRAPHY ||============================== //
 
 const Typography = (fontFamily) => ({
   htmlFontSize: 16,
