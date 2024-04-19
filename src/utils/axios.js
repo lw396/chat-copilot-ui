@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:3010/' });
+const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL || 'http://localhost:6978/' });
 
 // ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
 
@@ -20,9 +20,9 @@ axiosServices.interceptors.request.use(
 axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && !window.location.href.includes('/login')) {
-      window.location = '/maintenance/500';
-    }
+    // if (error.response.status === 401 && !window.location.href.includes('/login')) {
+    //   window.location = '/maintenance/500';
+    // }
     return Promise.reject((error.response && error.response.data) || 'Wrong Services');
   }
 );
