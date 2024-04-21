@@ -1,37 +1,37 @@
 // ==============================|| THEME CONSTANT ||============================== //
 
-export const twitterColor = '#1DA1F2';
-export const facebookColor = '#3b5998';
-export const linkedInColor = '#0e76a8';
+export const twitterColor = "#1DA1F2";
+export const facebookColor = "#3b5998";
+export const linkedInColor = "#0e76a8";
 
-export const APP_DEFAULT_PATH = '/sample-page';
+export const APP_DEFAULT_PATH = "/sample-page";
 export const HORIZONTAL_MAX_ITEM = 7;
 export const DRAWER_WIDTH = 260;
 export const MINI_DRAWER_WIDTH = 60;
 
 export const NavActionType = {
-  FUNCTION: 'function',
-  LINK: 'link'
+  FUNCTION: "function",
+  LINK: "link",
 };
 
 export const SimpleLayoutType = {
-  SIMPLE: 'simple',
-  LANDING: 'landing'
+  SIMPLE: "simple",
+  LANDING: "landing",
 };
 
 export const ThemeMode = {
-  LIGHT: 'light',
-  DARK: 'dark'
+  LIGHT: "light",
+  DARK: "dark",
 };
 
 export const MenuOrientation = {
-  VERTICAL: 'vertical',
-  HORIZONTAL: 'horizontal'
+  VERTICAL: "vertical",
+  HORIZONTAL: "horizontal",
 };
 
 export const ThemeDirection = {
-  LTR: 'ltr',
-  RTL: 'rtl'
+  LTR: "ltr",
+  RTL: "rtl",
 };
 
 // ==============================|| THEME CONFIG ||============================== //
@@ -55,7 +55,7 @@ const config = {
    * 'ro'
    * 'zh'
    */
-  i18n: 'zh',
+  i18n: "zh",
 
   /**
    * the props used for menu orientation (diffrent theme layout).
@@ -102,7 +102,7 @@ const config = {
    * 'theme7'
    * 'theme8'
    */
-  presetColor: 'default',
+  presetColor: "default",
 
   /**
    * the props used for default theme direction
@@ -111,7 +111,7 @@ const config = {
    * 'ltr' (default) - ThemeDirection.LTR
    * 'rtl' - ThemeDirection.RTL
    */
-  themeDirection: ThemeDirection.LTR
+  themeDirection: ThemeDirection.LTR,
 };
 
 export default config;

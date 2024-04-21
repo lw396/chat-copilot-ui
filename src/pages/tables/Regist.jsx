@@ -16,23 +16,17 @@ export default function Regist() {
       "http://localhost:8082/memberInfo",
       { params: { id: 123 } },
     ]);
-    // console.log(memberInfo)
     setInitialValues(memberInfo);
   };
   //
   useEffect(() => {
     getInfo();
-    // console.log(initialValues);
   }, []);
 
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
   });
-
-  // console.log('formik.values.name', formik.values.name);
-  // console.log('formik.values.address', formik.values.address);
-  console.log("formik.values", formik.values);
 
   return (
     <div>

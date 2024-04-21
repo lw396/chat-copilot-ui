@@ -20,6 +20,7 @@ const samplePage = {
       type: "item",
       isDropdown: false,
       url: "/sample-page",
+      icon: MinusOutlined,
       target: false,
     },
     {
@@ -35,6 +36,7 @@ const samplePage = {
       title: <FormattedMessage id="paginationTable" />,
       type: "item",
       url: "/paginationTable",
+      icon: MinusOutlined,
       target: false,
     },
   ],

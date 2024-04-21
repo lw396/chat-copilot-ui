@@ -1,7 +1,7 @@
 import Regist from "./Regist";
 
 export default function Tables() {
-  // console.log('test');
+  console.log('test');
 
   return (
     <>
