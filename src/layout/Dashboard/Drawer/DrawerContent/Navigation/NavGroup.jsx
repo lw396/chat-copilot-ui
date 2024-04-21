@@ -24,7 +24,7 @@ import { FormattedMessage } from 'react-intl';
 // project import
 import NavItem from './NavItem';
 import NavCollapse from './NavCollapse';
-import SimpleBar from 'components/third-party/SimpleBar';
+import SimpleBar from 'components/SimpleBar';
 import Transitions from 'components/@extended/Transitions';
 import { MenuOrientation, ThemeMode } from 'config';
 

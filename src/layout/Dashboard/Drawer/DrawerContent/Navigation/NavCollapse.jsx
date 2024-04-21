@@ -23,7 +23,7 @@ import {
 import NavItem from './NavItem';
 import Dot from 'components/@extended/Dot';
 import IconButton from 'components/@extended/IconButton';
-import SimpleBar from 'components/third-party/SimpleBar';
+import SimpleBar from 'components/SimpleBar';
 import Transitions from 'components/@extended/Transitions';
 import { ThemeMode, MenuOrientation } from 'config';
 
