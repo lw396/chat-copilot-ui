@@ -1,10 +1,10 @@
 // project import
-import samplePage from "./sample-page";
+import message from "./message";
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [samplePage],
+  items: [message],
 };
 
 export default menuItems;

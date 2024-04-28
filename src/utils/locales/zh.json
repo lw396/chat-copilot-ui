@@ -1,10 +1,8 @@
 {
-  "coming-soon": "即将推出",
-  "contact-us": "联系我们",
-  "disabled-menu": "禁用菜单",
-  "maintenance": "Maintenance",
+  "message": "消息",
+  "home-page": "首页",
+  "group-chat": "群聊",
   "more-items": "更多",
-  "sample-page": "示例页面",
   "tables": "表格",
   "paginationTable": "paginationTable"
 }

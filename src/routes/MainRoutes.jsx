@@ -5,9 +5,8 @@ import Loadable from "components/Loadable";
 import DashboardLayout from "layout/Dashboard";
 
 // render - sample page
-const SamplePage = Loadable(
-  lazy(() => import("pages/extra-pages/sample-page"))
-);
+const HomePage = Loadable(lazy(() => import("pages/home-page/home-page")));
+const GroupChat = Loadable(lazy(() => import("pages/group-chat/group-chat")));
 const Tables = Loadable(lazy(() => import("pages/tables/Tables")));
 const PaginationTable = Loadable(
   lazy(() => import("pages/tables/PaginationTable"))
@@ -22,8 +21,18 @@ const MainRoutes = {
       element: <DashboardLayout />,
       children: [
         {
-          path: "sample-page",
-          element: <SamplePage />,
+          path: "home-page",
+          element: <HomePage />,
+        },
+      ],
+    },
+    {
+      path: "/",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "group-chat",
+          element: <GroupChat />,
         },
       ],
     },

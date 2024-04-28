@@ -4,23 +4,36 @@
 import { FormattedMessage } from "react-intl";
 
 // assets
-import { ChromeOutlined, MinusOutlined } from "@ant-design/icons";
+import {
+  ChromeOutlined,
+  MinusOutlined,
+  BankOutlined,
+  UsergroupDeleteOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
-const samplePage = {
-  id: "sample-page",
-  title: <FormattedMessage id="sample-page" />,
+const message = {
+  id: "message",
+  title: <FormattedMessage id="message" />,
   type: "group",
   icon: ChromeOutlined,
   children: [
     {
-      id: "maintenance",
-      title: <FormattedMessage id="maintenance" />,
+      id: "home-page",
+      title: <FormattedMessage id="home-page" />,
       type: "item",
-      isDropdown: false,
-      url: "/sample-page",
-      icon: MinusOutlined,
+      url: "/home-page",
+      icon: BankOutlined,
+      target: false,
+    },
+    {
+      id: "group-chat",
+      title: <FormattedMessage id="group-chat" />,
+      type: "item",
+      url: "/group-chat",
+      icon: UsergroupDeleteOutlined,
       target: false,
     },
     {
@@ -28,7 +41,7 @@ const samplePage = {
       title: <FormattedMessage id="tables" />,
       type: "item",
       url: "/tables",
-      icon: MinusOutlined,
+      icon: UserOutlined,
       target: false,
     },
     {
@@ -42,4 +55,4 @@ const samplePage = {
   ],
 };
 
-export default samplePage;
+export default message;
