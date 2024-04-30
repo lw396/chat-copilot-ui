@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 // third-party
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -10,12 +11,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { DataGrid } from "@mui/x-data-grid";
 
 import MainCard from "components/MainCard";
 
-import { GroupContactList, MessageContentList } from "api/api";
+import {
+  GroupContactList,
+  MessageContentList,
+  DeleteMessageContent,
+} from "api/api";
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const GroupChat = () => {
@@ -30,6 +35,10 @@ const GroupChat = () => {
     setOpenWarn(false);
   };
 
+  const Formatted = (param) => {
+    return useIntl().formatMessage({ id: param });
+  };
+
   async function getMessageContentList(user_name) {
     try {
       const response = await MessageContentList(user_name, 1);
@@ -41,8 +50,10 @@ const GroupChat = () => {
 
   async function deleteMessageContent(user_name) {
     try {
-      const response = await MessageContentList(user_name, 1);
-      console.log(response.data.data);
+      await DeleteMessageContent(user_name);
+      handleCloseWarn();
+      const response = await GroupContactList("", 1);
+      setRows(response.data.data);
     } catch (err) {
       console.error(err);
     }
@@ -72,12 +83,7 @@ const GroupChat = () => {
           <FormattedMessage id="delete" />
         </Button>
 
-        <Dialog
-          open={openWarn}
-          onClose={handleCloseWarn}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
+        <Dialog fullWidth={true} open={openWarn} onClose={handleCloseWarn}>
           <DialogTitle id="alert-dialog-title">
             <FormattedMessage id="warn" />
           </DialogTitle>
@@ -87,8 +93,7 @@ const GroupChat = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={deleteMessageContent}>
-              {" "}
+            <Button onClick={() => deleteMessageContent(params.value)}>
               <FormattedMessage id="confirm" />
             </Button>
             <Button onClick={handleCloseWarn} autoFocus>
@@ -100,19 +105,45 @@ const GroupChat = () => {
     );
   }
 
+  function renderChip(params) {
+    const statusDictionary = {
+      1: {
+        value: Formatted("normal"),
+        color: "primary",
+      },
+      0: {
+        value: Formatted("disable"),
+        color: "error",
+      },
+    };
+    return (
+      <Chip
+        label={statusDictionary[params.value].value}
+        color={statusDictionary[params.value].color}
+        variant="outlined"
+      />
+    );
+  }
+
   const columns = [
-    { field: "id", headerName: "ID", width: 180 },
+    { field: "id", headerName: "ID", width: 200 },
     {
       field: "head_img_url",
-      width: 120,
+      width: 200,
       sortable: false,
       renderCell: renderAvatar,
-      headerName: <FormattedMessage id="avatar" defaultMessage="Avatar" />,
+      headerName: Formatted("avatar"),
     },
     {
       field: "nickname",
       width: 200,
-      headerName: <FormattedMessage id="nickname" defaultMessage="Nickname" />,
+      headerName: Formatted("nickname"),
+    },
+    {
+      field: "status",
+      width: 200,
+      renderCell: renderChip,
+      headerName: Formatted("status"),
     },
     {
       field: "created_at",
@@ -120,14 +151,14 @@ const GroupChat = () => {
       sortable: false,
       width: 200,
       valueGetter: (params) => new Date(params.value),
-      headerName: <FormattedMessage id="createdAt" defaultMessage="CreateAt" />,
+      headerName: Formatted("createdAt"),
     },
     {
       field: "usr_name",
-      width: 250,
+      width: 200,
       sortable: false,
       renderCell: renderActions,
-      headerName: <FormattedMessage id="action" defaultMessage="Action" />,
+      headerName: Formatted("action"),
     },
   ];
 

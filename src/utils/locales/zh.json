@@ -6,6 +6,7 @@
   "tables": "表格",
   "nickname": "昵称",
   "avatar": "头像",
+  "status": "状态",
   "createdAt": "创建时间",
   "action": "操作",
   "view": "查看",
@@ -13,6 +14,8 @@
   "warn": "警告",
   "confirm": "确认",
   "cancel": "取消",
+  "normal": "正常",
+  "disable": "禁用",
   "delete-confirm": "确认删除该聊天记录吗？",
   "paginationTable": "paginationTable"
 }
