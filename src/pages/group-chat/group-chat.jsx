@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // third-party
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import Fab from "@mui/material/Fab";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -13,6 +14,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import { FormattedMessage, useIntl } from "react-intl";
 import { DataGrid } from "@mui/x-data-grid";
+
+import AddIcon from "@mui/icons-material/Add";
 
 import MainCard from "components/MainCard";
 
@@ -196,6 +199,13 @@ const GroupChat = () => {
             disableRowSelectionOnClick
           />
         </Box>
+        <Fab
+          sx={{ position: "fixed", bottom: 200, right: 140 }}
+          color="primary"
+          aria-label="add"
+        >
+          <AddIcon />
+        </Fab>
       </MainCard>
     </>
   );
