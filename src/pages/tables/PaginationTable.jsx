@@ -12,7 +12,6 @@ const columns = [
     field: 'username',
     width: 150,
     renderCell: (value) => {
-      // console.log(value.row.username)
       return (
         <div>
           <Input />

@@ -6,3 +6,10 @@ export const GroupContactList = async (nickname, offset) => {
   });
   return response;
 };
+
+export const MessageContentList = async (user_name, offset) => {
+  const response = await axios.get("/v1/message_content_list", {
+    params: { user_name: user_name, offset: offset },
+  });
+  return response;
+};
