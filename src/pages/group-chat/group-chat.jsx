@@ -18,6 +18,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 
 import MainCard from "components/MainCard";
+import SearchGroup from "./component/Add";
 
 import {
   GroupContactList,
@@ -200,12 +201,14 @@ const GroupChat = () => {
           />
         </Box>
         <Fab
-          sx={{ position: "fixed", bottom: 200, right: 140 }}
+          sx={{ position: "fixed", top: "80%", right: "10%" }}
           color="primary"
           aria-label="add"
         >
           <AddIcon />
         </Fab>
+
+        <SearchGroup></SearchGroup>
       </MainCard>
     </>
   );

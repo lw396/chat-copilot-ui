@@ -1,5 +1,11 @@
 import axios from "utils/axios";
 
+export const SearchGroupContact = async (nickname) => {
+  return await axios.get("/v1/group_contact", {
+    params: { nickname: nickname },
+  });
+};
+
 export const GroupContactList = async (nickname, offset) => {
   return await axios.get("/v1/group_contact_list", {
     params: { nickname: nickname, offset: offset },
@@ -13,7 +19,6 @@ export const MessageContentList = async (user_name, offset) => {
 };
 
 export const DeleteMessageContent = async (user_name) => {
-  console.log(user_name);
   return await axios.delete("/v1/group_contact", {
     data: { user_name: user_name },
   });
