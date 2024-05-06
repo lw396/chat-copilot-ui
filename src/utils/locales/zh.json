@@ -17,6 +17,10 @@
   "normal": "正常",
   "disable": "禁用",
   "search-group": "搜索群聊",
+  "search-group-warn": "请输入群聊名称并点击回车键",
+  "no-group-options": "未找到群聊选项",
+  "add-group": "添加群聊",
+  "add-group-warn": "确定要添加群聊",
   "delete-confirm": "确认删除该聊天记录吗？",
   "paginationTable": "paginationTable"
 }

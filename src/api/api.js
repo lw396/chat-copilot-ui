@@ -6,6 +6,12 @@ export const SearchGroupContact = async (nickname) => {
   });
 };
 
+export const AddGroupContact = async (user_name) => {
+  return await axios.post("/v1/message_content", {
+    data: { user_name: user_name },
+  });
+};
+
 export const GroupContactList = async (nickname, offset) => {
   return await axios.get("/v1/group_contact_list", {
     params: { nickname: nickname, offset: offset },

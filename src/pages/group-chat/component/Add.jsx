@@ -1,23 +1,55 @@
 import * as React from "react";
 import { useState } from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+// material-ui
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  Autocomplete,
+} from "@mui/material";
 
-import { SearchGroupContact } from "api/api";
+import { AddGroupContact, SearchGroupContact } from "api/api";
 
 const SearchGroup = () => {
-  const [group, setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [group, setGroup] = useState({});
+  const [empty, setEmpty] = useState(true);
+  const [openWarn, setOpenWarn] = useState(false);
 
   const Formatted = (param) => {
     return useIntl().formatMessage({ id: param });
   };
 
+  const handleAddGroup = (nickname) => {
+    const group = groups.filter((item) => item.nickname === nickname);
+    if (!group) {
+      return;
+    }
+    setOpenWarn(true);
+    setGroup(group);
+  };
+
+  const handleCloseWarn = () => {
+    setOpenWarn(false);
+    setGroup({});
+  };
+
   async function searchGroupContact(nickname) {
+    if (nickname === "") {
+      setGroups([]);
+      setEmpty(true);
+      return;
+    }
     try {
       const response = await SearchGroupContact(nickname);
-      if (response.data.data.length === 0) {
+      if (!response.data.data) {
+        setGroups([]);
         return;
       }
       setGroups(response.data.data);
@@ -26,35 +58,70 @@ const SearchGroup = () => {
     }
   }
 
+  async function addGroupContact() {
+    try {
+      await AddGroupContact(group.usr_name);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
-    <Autocomplete
-      options={group}
-      getOptionLabel={(option) => option.nickname}
-      open={true}
-      sx={{
-        position: "fixed",
-        width: "30%",
-        top: "40%",
-        left: "43%",
-        bgcolor: "#f9f9fa",
-      }}
-      isOptionEqualToValue={(option, value) =>
-        option.nickname === value.nickname
-      }
-      clearOnBlur={false}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          helperText={Formatted("search-group")}
-          label={Formatted("search-group")}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              searchGroupContact(event.target.value);
-            }
-          }}
-        />
-      )}
-    />
+    <>
+      <Autocomplete
+        options={groups}
+        getOptionLabel={(option) => option.nickname}
+        open={true}
+        sx={{
+          position: "fixed",
+          width: "30%",
+          top: "40%",
+          left: "43%",
+          bgcolor: "#f9f9fa",
+        }}
+        isOptionEqualToValue={(option, value) =>
+          option.nickname === value.nickname
+        }
+        noOptionsText={
+          empty ? Formatted("search-group-warn") : Formatted("no-group-options")
+        }
+        onInputChange={(_, newValue) => {
+          setEmpty(false);
+          searchGroupContact(newValue);
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={Formatted("search-group")}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && groups.length !== 0) {
+                handleAddGroup(event.target.value);
+              }
+            }}
+          />
+        )}
+      />
+
+      <Dialog fullWidth={true} open={openWarn}>
+        <DialogTitle>
+          <FormattedMessage id="add-group" />
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <FormattedMessage id="add-group-warn" />
+            {group ? group.nickname : ""}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => addGroupContact}>
+            <FormattedMessage id="confirm" />
+          </Button>
+          <Button onClick={handleCloseWarn} autoFocus>
+            <FormattedMessage id="cancel" />
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

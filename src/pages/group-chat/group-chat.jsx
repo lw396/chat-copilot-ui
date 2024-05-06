@@ -2,15 +2,17 @@
 import { useEffect, useState } from "react";
 
 // third-party
-import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import Fab from "@mui/material/Fab";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  Box,
+  Chip,
+  Fab,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 import { FormattedMessage, useIntl } from "react-intl";
 import { DataGrid } from "@mui/x-data-grid";
