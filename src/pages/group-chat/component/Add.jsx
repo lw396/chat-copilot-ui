@@ -32,7 +32,7 @@ const SearchGroup = () => {
       return;
     }
     setOpenWarn(true);
-    setGroup(group);
+    setGroup(group[0]);
   };
 
   const handleCloseWarn = () => {
@@ -113,7 +113,7 @@ const SearchGroup = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => addGroupContact}>
+          <Button onClick={addGroupContact}>
             <FormattedMessage id="confirm" />
           </Button>
           <Button onClick={handleCloseWarn} autoFocus>

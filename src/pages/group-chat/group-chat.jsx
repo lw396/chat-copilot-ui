@@ -15,9 +15,10 @@ import {
 } from "@mui/material";
 
 import { FormattedMessage, useIntl } from "react-intl";
-import { DataGrid } from "@mui/x-data-grid";
-
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InsertCommentIcon from "@mui/icons-material/InsertComment";
 
 import MainCard from "components/MainCard";
 import SearchGroup from "./component/Add";
@@ -56,7 +57,8 @@ const GroupChat = () => {
 
   async function deleteMessageContent(user_name) {
     try {
-      await DeleteMessageContent(user_name);
+      // await DeleteMessageContent(user_name);
+      console.log(user_name);
       handleCloseWarn();
       const response = await GroupContactList("", 1);
       setRows(response.data.data);
@@ -69,14 +71,16 @@ const GroupChat = () => {
     return <img src={params.value} alt="" width={50} />;
   }
 
-  function renderActions(params) {
+  function renderActions(props) {
+    const { hasFocus, value } = props;
+    console.log(hasFocus, value);
     return (
       <>
         <Button
           style={{ marginRight: 16 }}
           size="small"
           variant="contained"
-          onClick={() => getMessageContentList(params.value)}
+          onClick={() => getMessageContentList(props.value)}
         >
           <FormattedMessage id="view" />
         </Button>
@@ -88,25 +92,6 @@ const GroupChat = () => {
         >
           <FormattedMessage id="delete" />
         </Button>
-
-        <Dialog fullWidth={true} open={openWarn} onClose={handleCloseWarn}>
-          <DialogTitle id="alert-dialog-title">
-            <FormattedMessage id="warn" />
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <FormattedMessage id="delete-confirm" />
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => deleteMessageContent(params.value)}>
-              <FormattedMessage id="confirm" />
-            </Button>
-            <Button onClick={handleCloseWarn} autoFocus>
-              <FormattedMessage id="cancel" />
-            </Button>
-          </DialogActions>
-        </Dialog>
       </>
     );
   }
@@ -160,11 +145,22 @@ const GroupChat = () => {
       headerName: Formatted("createdAt"),
     },
     {
-      field: "usr_name",
-      width: 200,
-      sortable: false,
-      renderCell: renderActions,
-      headerName: Formatted("action"),
+      field: "actions",
+      type: "actions",
+      width: 100,
+      getActions: (params) => [
+        <GridActionsCellItem
+          label={Formatted("view")}
+          icon={<InsertCommentIcon />}
+          onClick={() => getMessageContentList(params.row.usr_name)}
+        />,
+        <GridActionsCellItem
+          label={Formatted("delete")}
+          icon={<DeleteIcon />}
+          onClick={() => handleClickOpenWarn(params.row.usr_name)}
+          showInMenu
+        />,
+      ],
     },
   ];
 
@@ -209,6 +205,25 @@ const GroupChat = () => {
         >
           <AddIcon />
         </Fab>
+
+        <Dialog fullWidth={true} open={openWarn} onClose={handleCloseWarn}>
+          <DialogTitle id="alert-dialog-title">
+            <FormattedMessage id="warn" />
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <FormattedMessage id="delete-confirm" />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={deleteMessageContent}>
+              <FormattedMessage id="confirm" />
+            </Button>
+            <Button onClick={handleCloseWarn} autoFocus>
+              <FormattedMessage id="cancel" />
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <SearchGroup></SearchGroup>
       </MainCard>
