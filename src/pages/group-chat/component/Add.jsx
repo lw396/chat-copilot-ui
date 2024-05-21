@@ -14,9 +14,10 @@ import {
   Autocomplete,
 } from "@mui/material";
 
+import Alerting from "components/Alert";
 import { AddGroupContact, SearchGroupContact } from "api/api";
 
-const SearchGroup = () => {
+const SearchGroup = ({ handleCloseSearch, getGroupContactList }) => {
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState({});
   const [empty, setEmpty] = useState(true);
@@ -58,13 +59,16 @@ const SearchGroup = () => {
     }
   }
 
-  async function addGroupContact() {
+  const addGroupContact = async () => {
     try {
       await AddGroupContact(group.usr_name);
+      await getGroupContactList();
+      handleCloseWarn();
+      handleCloseSearch();
     } catch (err) {
-      console.error(err);
+      handleCloseWarn();
     }
-  }
+  };
 
   return (
     <>
@@ -101,7 +105,6 @@ const SearchGroup = () => {
           />
         )}
       />
-
       <Dialog fullWidth={true} open={openWarn}>
         <DialogTitle>
           <FormattedMessage id="add-group" />

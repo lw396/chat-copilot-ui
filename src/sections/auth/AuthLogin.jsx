@@ -170,7 +170,7 @@ const AuthLogin = () => {
               <Snackbar
                 open={open && errors !== undefined}
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                autoHideDuration={6000}
+                autoHideDuration={3000}
                 onClose={handleCloseAlert}
               >
                 <Alert

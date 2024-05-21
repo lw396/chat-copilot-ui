@@ -1,7 +1,5 @@
-// material-ui
 import { useEffect, useState } from "react";
 
-// third-party
 import {
   Box,
   Chip,
@@ -22,19 +20,22 @@ import InsertCommentIcon from "@mui/icons-material/InsertComment";
 
 import MainCard from "components/MainCard";
 import SearchGroup from "./component/Add";
+import ErrorAlert from "components/Alert";
 
 import {
   GroupContactList,
   MessageContentList,
   DeleteMessageContent,
 } from "api/api";
-// ==============================|| SAMPLE PAGE ||============================== //
 
 const GroupChat = () => {
-  const [rows, setRows] = useState([]);
+  const [list, setList] = useState([]);
+  const [currentRow, setCurrentRow] = useState({});
   const [openWarn, setOpenWarn] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
 
-  const handleClickOpenWarn = () => {
+  const handleOpenWarn = (row) => {
+    setCurrentRow(row);
     setOpenWarn(true);
   };
 
@@ -42,58 +43,48 @@ const GroupChat = () => {
     setOpenWarn(false);
   };
 
+  const handleOpenSearch = () => {
+    setOpenSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    setOpenSearch(false);
+  };
+
+  const getGroupContactList = async () => {
+    try {
+      const response = await GroupContactList("", 1);
+      setList(response.data.data);
+    } catch (err) {
+      <ErrorAlert content={err} />;
+    }
+  };
+
   const Formatted = (param) => {
     return useIntl().formatMessage({ id: param });
   };
 
-  async function getMessageContentList(user_name) {
+  async function getMessageContentList(row) {
     try {
-      const response = await MessageContentList(user_name, 1);
+      const response = await MessageContentList(row.user_name, 1);
       console.log(response.data.data);
     } catch (err) {
-      console.error(err);
+      return <ErrorAlert content={err}></ErrorAlert>;
     }
   }
 
-  async function deleteMessageContent(user_name) {
+  async function deleteMessageContent() {
     try {
-      // await DeleteMessageContent(user_name);
-      console.log(user_name);
+      await DeleteMessageContent(currentRow.usr_name);
       handleCloseWarn();
-      const response = await GroupContactList("", 1);
-      setRows(response.data.data);
+      getGroupContactList();
     } catch (err) {
-      console.error(err);
+      return <ErrorAlert content={err}></ErrorAlert>;
     }
   }
 
   function renderAvatar(params) {
     return <img src={params.value} alt="" width={50} />;
-  }
-
-  function renderActions(props) {
-    const { hasFocus, value } = props;
-    console.log(hasFocus, value);
-    return (
-      <>
-        <Button
-          style={{ marginRight: 16 }}
-          size="small"
-          variant="contained"
-          onClick={() => getMessageContentList(props.value)}
-        >
-          <FormattedMessage id="view" />
-        </Button>
-        <Button
-          style={{ marginRight: 16 }}
-          size="small"
-          variant="contained"
-          onClick={handleClickOpenWarn}
-        >
-          <FormattedMessage id="delete" />
-        </Button>
-      </>
-    );
   }
 
   function renderChip(params) {
@@ -152,12 +143,12 @@ const GroupChat = () => {
         <GridActionsCellItem
           label={Formatted("view")}
           icon={<InsertCommentIcon />}
-          onClick={() => getMessageContentList(params.row.usr_name)}
+          onClick={() => getMessageContentList(params.row)}
         />,
         <GridActionsCellItem
           label={Formatted("delete")}
           icon={<DeleteIcon />}
-          onClick={() => handleClickOpenWarn(params.row.usr_name)}
+          onClick={() => handleOpenWarn(params.row)}
           showInMenu
         />,
       ],
@@ -167,8 +158,7 @@ const GroupChat = () => {
   useEffect(() => {
     const getRows = async () => {
       try {
-        const response = await GroupContactList("", 1);
-        setRows(response.data.data);
+        getGroupContactList();
       } catch (err) {
         console.error(err);
       }
@@ -182,7 +172,7 @@ const GroupChat = () => {
       <MainCard>
         <Box sx={{ height: 700, width: "100%" }}>
           <DataGrid
-            rows={rows}
+            rows={list}
             columns={columns}
             rowHeight={60}
             sx={{ m: 2 }}
@@ -202,6 +192,7 @@ const GroupChat = () => {
           sx={{ position: "fixed", top: "80%", right: "10%" }}
           color="primary"
           aria-label="add"
+          onClick={handleOpenSearch}
         >
           <AddIcon />
         </Fab>
@@ -225,7 +216,12 @@ const GroupChat = () => {
           </DialogActions>
         </Dialog>
 
-        <SearchGroup></SearchGroup>
+        <Dialog fullWidth={true} open={openSearch} onClose={handleCloseSearch}>
+          <SearchGroup
+            handleCloseSearch={handleCloseSearch}
+            getGroupContactList={getGroupContactList}
+          ></SearchGroup>
+        </Dialog>
       </MainCard>
     </>
   );
