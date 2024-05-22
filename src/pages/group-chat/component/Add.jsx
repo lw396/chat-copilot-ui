@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSnackbar } from "notistack";
 
-import { Box, TextField, Autocomplete } from "@mui/material";
+import { TextField, Autocomplete } from "@mui/material";
 
 import { AddGroupContact, SearchGroupContact } from "api/api";
 import Query from "components/Query";
@@ -68,55 +68,40 @@ const SearchGroup = ({ handleCloseSearch, getGroupContactList }) => {
 
   return (
     <>
-      <Box>
-        <Autocomplete
-          options={groups}
-          getOptionLabel={(option) => option.nickname}
-          open={true}
-          sx={{
-            position: "fixed",
-            width: "30%",
-            top: "40%",
-            left: "43%",
-            bgcolor: "#f9f9fa",
-          }}
-          isOptionEqualToValue={(option, value) =>
-            option.nickname === value.nickname
-          }
-          noOptionsText={
-            empty
-              ? Formatted("search-group-warn")
-              : Formatted("no-group-options")
-          }
-          onInputChange={(_, newValue) => {
-            setEmpty(false);
-            searchGroupContact(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={Formatted("search-group")}
-              variant="standard"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && groups.length !== 0) {
-                  handleAddGroup(event.target.value);
-                }
-              }}
-            />
-          )}
-        />
+      <Autocomplete
+        options={groups}
+        getOptionLabel={(option) => option.nickname}
+        open={true}
+        isOptionEqualToValue={(option, value) =>
+          option.nickname === value.nickname
+        }
+        noOptionsText={
+          empty ? Formatted("search-group-warn") : Formatted("no-group-options")
+        }
+        onInputChange={(_, newValue) => {
+          setEmpty(false);
+          searchGroupContact(newValue);
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={Formatted("search-group")}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && groups.length !== 0) {
+                handleAddGroup(event.target.value);
+              }
+            }}
+          />
+        )}
+      />
 
-        <Query
-          open={openWarn}
-          title={<FormattedMessage id="add-group" />}
-          content={<FormattedMessage id="add-group-warn" />}
-          action={addGroupContact}
-          handleClose={handleCloseWarn}
-        />
-      </Box>
+      <Query
+        open={openWarn}
+        title={<FormattedMessage id="add-group" />}
+        content={<FormattedMessage id="add-group-warn" />}
+        action={addGroupContact}
+        handleClose={handleCloseWarn}
+      />
     </>
   );
 };

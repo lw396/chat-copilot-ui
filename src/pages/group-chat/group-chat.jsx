@@ -24,6 +24,7 @@ const GroupChat = () => {
   const [currentRow, setCurrentRow] = useState({});
   const [openWarn, setOpenWarn] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -47,7 +48,9 @@ const GroupChat = () => {
   const getGroupContactList = async () => {
     try {
       const response = await GroupContactList("", 1);
-      setList(response.data.data);
+      setList(response.data.data.list);
+      console.log(response.data.data.total);
+      setTotal(response.data.data.total);
     } catch (err) {
       enqueueSnackbar(err.msg, { variant: "error" });
     }
@@ -59,7 +62,7 @@ const GroupChat = () => {
 
   async function getMessageContentList(row) {
     try {
-      const response = await MessageContentList(row.user_name, 1);
+      const response = await MessageContentList(row.usr_name, 1);
       console.log(response.data.data);
     } catch (err) {
       return enqueueSnackbar(err.msg, { variant: "error" });
@@ -171,6 +174,7 @@ const GroupChat = () => {
               },
             }}
             pageSizeOptions={[10]}
+            rowCount={total}
             checkboxSelection
             disableRowSelectionOnClick
           />
@@ -192,14 +196,7 @@ const GroupChat = () => {
           handleClose={handleCloseWarn}
         />
 
-        <Dialog
-          fullWidth={true}
-          PaperProps={{
-            elevation: 0,
-          }}
-          open={openSearch}
-          onClose={handleCloseSearch}
-        >
+        <Dialog fullWidth={true} open={openSearch} onClose={handleCloseSearch}>
           <SearchGroup
             handleCloseSearch={handleCloseSearch}
             getGroupContactList={getGroupContactList}

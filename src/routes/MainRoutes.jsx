@@ -33,6 +33,12 @@ const MainRoutes = {
         {
           path: "group-chat",
           element: <GroupChat />,
+          children: [
+            {
+              path: "info",
+              element: <GroupChat />,
+            },
+          ],
         },
       ],
     },
