@@ -9,14 +9,13 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 
 // third party
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { preload } from "swr";
+import { useSnackbar } from "notistack";
 
 // project import
 import useAuth from "hooks/useAuth";
@@ -33,9 +32,8 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 const AuthLogin = () => {
   const { login } = useAuth();
   const scriptedRef = useScriptRef();
-
+  const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -43,10 +41,6 @@ const AuthLogin = () => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
-  };
-
-  const handleCloseAlert = () => {
-    setOpen(false);
   };
 
   return (
@@ -72,7 +66,7 @@ const AuthLogin = () => {
           } catch (err) {
             console.error(err.msg);
             if (scriptedRef.current) {
-              setOpen(true);
+              enqueueSnackbar(err.msg, { variant: "error" });
               setStatus({ success: false });
               setErrors({ submit: err.msg });
               setSubmitting(false);
@@ -166,21 +160,6 @@ const AuthLogin = () => {
                   </Button>
                 </AnimateButton>
               </Grid>
-
-              <Snackbar
-                open={open && errors !== undefined}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                autoHideDuration={3000}
-                onClose={handleCloseAlert}
-              >
-                <Alert
-                  severity="error"
-                  variant="filled"
-                  onClose={handleCloseAlert}
-                >
-                  {errors.submit}
-                </Alert>
-              </Snackbar>
             </Grid>
           </form>
         )}

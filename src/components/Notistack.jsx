@@ -1,41 +1,46 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 //material-ui
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 // third-party
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from "notistack";
 
 // project import
-import Loader from 'components/Loader';
-import { useGetSnackbar } from 'api/snackbar';
+import Loader from "components/Loader";
+import { useGetSnackbar } from "api/snackbar";
 
 // assets
-import { CheckCircleOutlined, CloseCircleOutlined, InfoCircleOutlined, WarningOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  InfoCircleOutlined,
+  WarningOutlined,
+} from "@ant-design/icons";
 
 // custom styles
 const StyledSnackbarProvider = styled(SnackbarProvider)(({ theme }) => ({
-  '&.notistack-MuiContent-default': {
-    backgroundColor: theme.palette.primary.main
+  "&.notistack-MuiContent-default": {
+    backgroundColor: theme.palette.primary.main,
   },
-  '&.notistack-MuiContent-error': {
-    backgroundColor: theme.palette.error.main
+  "&.notistack-MuiContent-error": {
+    backgroundColor: theme.palette.error.main,
   },
-  '&.notistack-MuiContent-success': {
-    backgroundColor: theme.palette.success.main
+  "&.notistack-MuiContent-success": {
+    backgroundColor: theme.palette.success.main,
   },
-  '&.notistack-MuiContent-info': {
-    backgroundColor: theme.palette.info.main
+  "&.notistack-MuiContent-info": {
+    backgroundColor: theme.palette.info.main,
   },
-  '&.notistack-MuiContent-warning': {
-    backgroundColor: theme.palette.warning.main
-  }
+  "&.notistack-MuiContent-warning": {
+    backgroundColor: theme.palette.warning.main,
+  },
 }));
 
 // ===========================|| SNACKBAR - NOTISTACK ||=========================== //
 
 const Notistack = ({ children }) => {
   const { snackbar } = useGetSnackbar();
-  const iconSX = { marginRight: 8, fontSize: '1.15rem' };
+  const iconSX = { marginRight: 8, fontSize: "1.15rem" };
 
   if (snackbar === undefined) return <Loader />;
 
@@ -44,16 +49,17 @@ const Notistack = ({ children }) => {
       maxSnack={snackbar.maxStack}
       dense={snackbar.dense}
       iconVariant={
-        snackbar.iconVariant === 'useemojis'
+        snackbar.iconVariant === "useemojis"
           ? {
               success: <CheckCircleOutlined style={iconSX} />,
               error: <CloseCircleOutlined style={iconSX} />,
               warning: <WarningOutlined style={iconSX} />,
-              info: <InfoCircleOutlined style={iconSX} />
+              info: <InfoCircleOutlined style={iconSX} />,
             }
           : undefined
       }
-      hideIconVariant={snackbar.iconVariant === 'hide' ? true : false}
+      hideIconVariant={snackbar.iconVariant === "hide" ? true : false}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       {children}
     </StyledSnackbarProvider>
@@ -61,7 +67,7 @@ const Notistack = ({ children }) => {
 };
 
 Notistack.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default Notistack;

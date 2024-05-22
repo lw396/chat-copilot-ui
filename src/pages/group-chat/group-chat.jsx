@@ -1,26 +1,17 @@
 import { useEffect, useState } from "react";
-
-import {
-  Box,
-  Chip,
-  Fab,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-
 import { FormattedMessage, useIntl } from "react-intl";
+
+import { useSnackbar } from "notistack";
+
+import { Box, Chip, Fab, Dialog } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InsertCommentIcon from "@mui/icons-material/InsertComment";
 
 import MainCard from "components/MainCard";
+import Query from "components/Query";
 import SearchGroup from "./component/Add";
-import ErrorAlert from "components/Alert";
 
 import {
   GroupContactList,
@@ -33,6 +24,8 @@ const GroupChat = () => {
   const [currentRow, setCurrentRow] = useState({});
   const [openWarn, setOpenWarn] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleOpenWarn = (row) => {
     setCurrentRow(row);
@@ -56,7 +49,7 @@ const GroupChat = () => {
       const response = await GroupContactList("", 1);
       setList(response.data.data);
     } catch (err) {
-      <ErrorAlert content={err} />;
+      enqueueSnackbar(err.msg, { variant: "error" });
     }
   };
 
@@ -69,7 +62,7 @@ const GroupChat = () => {
       const response = await MessageContentList(row.user_name, 1);
       console.log(response.data.data);
     } catch (err) {
-      return <ErrorAlert content={err}></ErrorAlert>;
+      return enqueueSnackbar(err.msg, { variant: "error" });
     }
   }
 
@@ -79,7 +72,7 @@ const GroupChat = () => {
       handleCloseWarn();
       getGroupContactList();
     } catch (err) {
-      return <ErrorAlert content={err}></ErrorAlert>;
+      enqueueSnackbar(err.msg, { variant: "error" });
     }
   }
 
@@ -111,14 +104,14 @@ const GroupChat = () => {
     { field: "id", headerName: "ID", width: 200 },
     {
       field: "head_img_url",
-      width: 200,
+      width: 180,
       sortable: false,
       renderCell: renderAvatar,
       headerName: Formatted("avatar"),
     },
     {
       field: "nickname",
-      width: 200,
+      width: 250,
       headerName: Formatted("nickname"),
     },
     {
@@ -156,15 +149,9 @@ const GroupChat = () => {
   ];
 
   useEffect(() => {
-    const getRows = async () => {
-      try {
-        getGroupContactList();
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    getGroupContactList();
 
-    getRows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -197,30 +184,26 @@ const GroupChat = () => {
           <AddIcon />
         </Fab>
 
-        <Dialog fullWidth={true} open={openWarn} onClose={handleCloseWarn}>
-          <DialogTitle id="alert-dialog-title">
-            <FormattedMessage id="warn" />
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <FormattedMessage id="delete-confirm" />
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={deleteMessageContent}>
-              <FormattedMessage id="confirm" />
-            </Button>
-            <Button onClick={handleCloseWarn} autoFocus>
-              <FormattedMessage id="cancel" />
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <Query
+          open={openWarn}
+          title={<FormattedMessage id="warn" />}
+          content={<FormattedMessage id="delete-confirm" />}
+          action={deleteMessageContent}
+          handleClose={handleCloseWarn}
+        />
 
-        <Dialog fullWidth={true} open={openSearch} onClose={handleCloseSearch}>
+        <Dialog
+          fullWidth={true}
+          PaperProps={{
+            elevation: 0,
+          }}
+          open={openSearch}
+          onClose={handleCloseSearch}
+        >
           <SearchGroup
             handleCloseSearch={handleCloseSearch}
             getGroupContactList={getGroupContactList}
-          ></SearchGroup>
+          />
         </Dialog>
       </MainCard>
     </>
